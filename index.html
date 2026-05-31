@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Country Balls</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="apple-touch-icon" href="/assets/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- ════════ BACKGROUND EFFECTS ════════ -->
+  <div class="bg-field">
+    <div class="field-line field-line-1"></div>
+    <div class="field-line field-line-2"></div>
+    <div class="field-line field-line-3"></div>
+    <div class="field-circle"></div>
+    <div class="particles-bg" id="particlesBg"></div>
+  </div>
+
+  <!-- ════════ NAVBAR ════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <img class="brand-icon" src="/assets/logo.png" alt="Country Balls logo">
+        <span class="brand-text">Country<span class="brand-accent">Balls</span></span>
+        <a class="brand-badge" href="https://x.com" target="_blank" rel="noopener">X</a>
+      </div>
+      <div class="nav-links">
+        <a href="#home" class="nav-link active" data-section="home">Home</a>
+        <a href="#gacha" class="nav-link" data-section="gacha">Lottery</a>
+        <a href="#nations" class="nav-link" data-section="nations">Nations</a>
+        <a href="#rewards" class="nav-link" data-section="rewards">Rewards</a>
+        <a href="#leaderboard" class="nav-link" data-section="leaderboard">Ranking</a>
+      </div>
+      <div class="nav-right">
+        <div class="sol-price" id="solPrice">
+          <span class="sol-icon">◎</span>
+          <span class="sol-value" id="solPriceValue">--</span>
+        </div>
+        <button id="connectBtn" class="btn-wallet" onclick="window.walletManager?.showModal()">
+          <span class="wallet-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="6" width="20" height="14" rx="2"/><path d="M16 14h.01"/><path d="M2 10h20"/>
+            </svg>
+          </span>
+          <span class="wallet-text">Connect Wallet</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════ MOBILE NAV ════════ -->
+  <nav class="mobile-nav">
+    <button class="mobile-tab active" data-section="home">🏠<span>Home</span></button>
+    <button class="mobile-tab" data-section="gacha">🎰<span>Lottery</span></button>
+    <button class="mobile-tab" data-section="nations"><img class="mobile-tab-logo" src="/assets/logo.png" alt=""><span>Nations</span></button>
+    <button class="mobile-tab" data-section="rewards">💰<span>Rewards</span></button>
+    <button class="mobile-tab" data-section="leaderboard">🏆<span>Rank</span></button>
+  </nav>
+
+  <!-- ════════ WALLET MODAL ════════ -->
+  <div id="walletModal" class="wallet-modal hidden">
+    <div class="wallet-modal-backdrop" onclick="window.walletManager?.hideModal()"></div>
+    <div class="wallet-modal-content">
+      <div class="wallet-modal-header">
+        <h3>Connect Wallet</h3>
+        <button class="wallet-modal-close" onclick="window.walletManager?.hideModal()">✕</button>
+      </div>
+      <p class="wallet-modal-desc">Connect your Solana wallet to start pulling</p>
+      <div class="wallet-modal-list" id="walletList">
+        <div class="wallet-option" data-wallet="phantom">
+          <img src="https://phantom.app/favicon.ico" alt="Phantom" class="wallet-option-icon" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👻</text></svg>'">
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">Phantom</span>
+            <span class="wallet-option-status" id="phantomStatus">Checking...</span>
+          </div>
+          <span class="wallet-option-arrow">→</span>
+        </div>
+        <div class="wallet-option" data-wallet="solflare">
+          <img src="https://solflare.com/favicon.ico" alt="Solflare" class="wallet-option-icon" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☀️</text></svg>'">
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">Solflare</span>
+            <span class="wallet-option-status" id="solflareStatus">Checking...</span>
+          </div>
+          <span class="wallet-option-arrow">→</span>
+        </div>
+        <div class="wallet-option" data-wallet="backpack">
+          <img src="https://backpack.app/favicon.ico" alt="Backpack" class="wallet-option-icon" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎒</text></svg>'">
+          <div class="wallet-option-info">
+            <span class="wallet-option-name">Backpack</span>
+            <span class="wallet-option-status" id="backpackStatus">Checking...</span>
+          </div>
+          <span class="wallet-option-arrow">→</span>
+        </div>
+      </div>
+      <div class="wallet-modal-footer">
+        <p>New to Solana? <a href="https://phantom.app/" target="_blank" rel="noopener">Get a wallet</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ HERO SECTION ════════ -->
+  <section id="home" class="section section-hero active">
+    <div class="hero-content">
+      <button class="hero-badge contract-copy" id="contractCopyBtn" type="button" data-address="0000000000000000000000000000000000000" aria-label="Copy contract address">
+        <span class="contract-copy-label">Contract Address</span>
+        <span class="contract-copy-short">0000...pump</span>
+      </button>
+      <h1 class="hero-title">
+        <span class="title-line">CountryBalls</span>
+        <span class="title-line accent">ECOSYSTEM</span>
+      </h1>
+      <p class="hero-subtitle">
+        <strong>CountryBalls</strong> is a collection based reward<br>ecosystem built around countries from all over the world.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-icon">🎰</div>
+          <div class="stat-value">3h</div>
+          <div class="stat-label">Cooldown</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🪙</div>
+          <div class="stat-value">Hold</div>
+          <div class="stat-label">To Play</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><img class="stat-logo" src="/assets/logo.png" alt="Country Balls logo"></div>
+          <div class="stat-value">48</div>
+          <div class="stat-label">Nations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📈</div>
+          <div class="stat-value">5x</div>
+          <div class="stat-label">Max Multiplier</div>
+        </div>
+      </div>
+
+      
+
+      <!-- MULTIPLIER INFO -->
+      <div class="multiplier-info">
+        <h3 class="guide-title">📈 Holding Multiplier Rewards</h3>
+        <div class="mult-features">
+          <div class="mult-feature">
+            <span class="mult-icon">💰</span>
+            <div>
+              <h4>Win Bigger</h4>
+              <p>Every 3 hours, a random CountryBalls is selected. Hold the winning ball and earn a larger share of SOL rewards.</p>
+            </div>
+          </div>
+          <div class="mult-feature">
+            <span class="mult-icon">⚡</span>
+            <div>
+              <h4>Automatic Draws</h4>
+              <p>No staking or lockups required. Simply hold qualifying tokens and participate in every lottery round automatically.</p>
+            </div>
+          </div>
+          <div class="mult-feature">
+            <span class="mult-icon">◎</span>
+            <div>
+              <h4>Paid in SOL</h4>
+              <p>All rewards are distributed in SOL. Claim your earnings directly to your wallet anytime.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-hero" onclick="navigateTo('gacha')">
+        ⚽ Start Pulling!
+      </button>
+
+      <!-- RECENT PULLS FEED -->
+      <div class="recent-feed">
+        <h3 class="feed-title">🔔 Recent Pulls</h3>
+        <div id="recentFeed" class="feed-list">
+          <div class="feed-loading">Loading pulls...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ GACHA SECTION ════════ -->
+  <section id="gacha" class="section section-gacha">
+    <div class="gacha-container">
+      <!-- WALLET STATUS -->
+      <div id="walletPanel" class="wallet-panel">
+        <div class="wallet-info-row">
+          <div class="wallet-addr">
+            <span class="addr-icon">◎</span>
+            <span id="walletAddr" class="addr-text">Not connected</span>
+          </div>
+          <div class="wallet-balance">
+            <span class="bal-value" id="tokenBalance">0</span>
+            <span class="bal-token">TOKENS</span>
+          </div>
+        </div>
+        <div id="holdingStatus" class="holding-status hidden">
+          <span class="holding-icon">✅</span>
+          <span>You're holding tokens — ready to pull!</span>
+        </div>
+        <div id="holdingWarning" class="holding-warning hidden">
+          <span class="holding-icon">⚠️</span>
+          <span>You must <strong>hold tokens</strong> to participate in gacha</span>
+        </div>
+      </div>
+
+      <!-- GACHA MACHINE -->
+      <div class="gacha-machine">
+        <div class="machine-top">
+          <div class="machine-light light-1"></div>
+          <div class="machine-light light-2"></div>
+          <div class="machine-light light-3"></div>
+        </div>
+
+        <div class="machine-body">
+          <div class="machine-window">
+            <div class="gacha-ball-container">
+              <div id="gachaBall" class="gacha-ball">
+                <img class="ball-logo" src="/assets/logo.png" alt="Country Balls logo">
+              </div>
+            </div>
+            <div class="machine-particles" id="machineParticles"></div>
+          </div>
+
+          <div id="cooldownDisplay" class="cooldown-display hidden">
+            <div class="cooldown-ring">
+              <svg viewBox="0 0 120 120">
+                <circle class="cooldown-bg" cx="60" cy="60" r="54"/>
+                <circle id="cooldownCircle" class="cooldown-progress" cx="60" cy="60" r="54"/>
+              </svg>
+              <div class="cooldown-text">
+                <span id="cooldownTime">00:00:00</span>
+                <span class="cooldown-label">until next pull</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="machine-base">
+          <button id="pullBtn" class="btn-pull" disabled>
+            <span class="pull-icon">🎰</span>
+            <span class="pull-text">PULL!</span>
+          </button>
+          <div id="pullStatus" class="pull-status"></div>
+        </div>
+      </div>
+
+      <!-- RESULT OVERLAY -->
+      <div id="resultOverlay" class="result-overlay hidden">
+        <div class="result-card" id="resultCard">
+          <div class="result-beam"></div>
+          <div class="result-sparkles" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="result-kicker" id="resultKicker">Nation unlocked</div>
+          <div class="result-flag-wrap">
+            <div class="result-silhouette">?</div>
+            <span class="result-flag" id="resultFlag">🏁</span>
+          </div>
+          <div class="result-name" id="resultName">Nation</div>
+          <div class="result-confed" id="resultConfed">Confederation</div>
+          <div class="result-cost" id="resultCost">0.005 SOL</div>
+          <div class="result-new" id="resultNew"></div>
+          <button class="btn-close-result" onclick="closeResult()">✕ Close</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ NATIONS SECTION ════════ -->
+  <section id="nations" class="section section-nations">
+    <div class="nations-container">
+      <div class="section-header">
+        <h2 class="section-title">My Nations</h2>
+        <div class="nations-stats">
+          <div class="coll-stat">
+            <span id="nationProgress" class="coll-value">0</span>
+            <span class="coll-label">/ <span id="nationTotal">48</span> collected</span>
+          </div>
+          <div class="coll-bar-wrap">
+            <div id="nationBar" class="coll-bar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NATIONS GRID -->
+      <div id="nationsGrid" class="nations-grid">
+        <div class="grid-empty">
+          <img class="empty-icon empty-logo" src="/assets/logo.png" alt="Country Balls logo">
+          <p>No nations yet! Connect wallet and start pulling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ REWARDS SECTION ════════ -->
+  <section id="rewards" class="section section-rewards">
+    <div class="rewards-container">
+      <div class="section-header">
+        <h2 class="section-title">💰 Holding Rewards</h2>
+        <p class="section-subtitle">Hold & earn SOL automatically</p>
+      </div>
+
+      <!-- MULTIPLIER CARD -->
+      <div class="reward-card main-reward-card">
+        <div class="reward-header">
+          <span class="reward-label">YOUR MULTIPLIER</span>
+          <span class="reward-value" id="rewardMultiplier">1.0x</span>
+        </div>
+        <div class="mult-bar-wrap">
+          <div id="multBar" class="mult-bar" style="width:0%"></div>
+        </div>
+        <div class="reward-meta">
+          <div class="reward-meta-item">
+            <span class="meta-label">Days Held</span>
+            <span class="meta-value" id="rewardDaysHeld">0</span>
+          </div>
+          <div class="reward-meta-item">
+            <span class="meta-label">High Mark</span>
+            <span class="meta-value" id="rewardHighMark">0.000 SOL</span>
+          </div>
+          <div class="reward-meta-item">
+            <span class="meta-label">Pull Discount</span>
+            <span class="meta-value" id="rewardDiscount">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLAIM CARD -->
+      <div class="reward-card claim-card">
+        <div class="claim-left">
+          <span class="claim-label">CLAIMABLE REWARDS</span>
+          <span class="claim-amount" id="claimAmount">0.0000 SOL</span>
+          <span class="claim-note">From gacha pull fees • Claim to wallet</span>
+        </div>
+        <button id="claimBtn" class="btn-claim" disabled onclick="claimRewards()">
+          Claim SOL
+        </button>
+      </div>
+
+      <!-- POOL CARD -->
+      <div class="reward-card pool-card">
+        <div class="pool-row">
+          <span class="pool-label">REWARD POOL</span>
+          <span class="pool-value" id="poolValue">0.0000 SOL</span>
+        </div>
+        <p class="pool-note">Hold the Lucky Ball to receive up to 10x your reward share</p>
+      </div>
+
+      <!-- HOW IT WORKS -->
+      <div class="reward-card how-card">
+        <h3 class="how-title">How It Works</h3>
+        <div class="how-steps">
+          <div class="how-step">
+            <span class="how-num">1</span>
+            <p>Connect wallet & hold SOL. Your high mark is tracked.</p>
+          </div>
+          <div class="how-step">
+            <span class="how-num">2</span>
+            <p>Multiplier grows +0.1x per day (max 5x). No staking needed.</p>
+          </div>
+          <div class="how-step">
+            <span class="how-num">3</span>
+            <p>Every pull earns SOL rewards proportional to your multiplier.</p>
+          </div>
+          <div class="how-step">
+            <span class="how-num">4</span>
+            <p>Sell below 50% of your high mark → multiplier resets to 1.0x.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ LEADERBOARD SECTION ════════ -->
+  <section id="leaderboard" class="section section-leaderboard">
+    <div class="leaderboard-container">
+      <div class="section-header">
+        <h2 class="section-title">🏆 Rankings</h2>
+        <p class="section-subtitle">Top collectors competing for glory!</p>
+      </div>
+      <div id="leaderboardList" class="leaderboard-list">
+        <div class="lb-loading">Loading rankings...</div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="/js/wallet.js"></script>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
