@@ -22,7 +22,7 @@ Frontend Vite dev proxy maps `/api` to this backend.
 ## Token
 
 ```txt
-CBgXb5i9pNi1YJmY1bFkhaHa448fafAm747PnNCcpump
+000000000000000000000000
 ```
 
 ## Endpoints
@@ -88,7 +88,7 @@ Success includes:
   "cooldownRemaining": 0,
   "cooldownTotal": 10800000,
   "hasTokens": true,
-  "tokenMint": "CBgXb5i9pNi1YJmY1bFkhaHa448fafAm747PnNCcpump",
+  "tokenMint": "000000000000000000000000",
   "nations": [],
   "nationProgress": 0,
   "totalNations": 48,
@@ -203,7 +203,7 @@ Success:
 ```json
 {
   "nations": [],
-  "tokenMint": "CBgXb5i9pNi1YJmY1bFkhaHa448fafAm747PnNCcpump"
+  "tokenMint": "000000000000000000000000"
 }
 ```
 
